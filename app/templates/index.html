@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bathroom Dashboard</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link rel="icon" href="static/favicon.ico">
+</head>
+
+<body>
+    <h1>Current Date & Time</h1>
+    <div id="date" hx-get="date" hx-trigger="load, every 10s" hx-target="#date">
+        Loading...
+    </div>
+</body>
+
+</html>
