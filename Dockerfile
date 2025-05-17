@@ -13,7 +13,8 @@ RUN /bin/uv pip install --system -r requirements.txt --target /install
 # Stage 2: Final image
 FROM python:3.11-slim
 
-# Set Python path to include /install
+# Add /install/bin to PATH so CLI tools like uvicorn are found
+ENV PATH="/install/bin:$PATH"
 ENV PYTHONPATH="/install:$PYTHONPATH"
 
 COPY --from=builder /install /install
