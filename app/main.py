@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -5,7 +6,8 @@ from fastapi.staticfiles import StaticFiles
 from datetime import date
 
 # This is the fix: mount app under a proxy path
-app = FastAPI(root_path="/proxy/8000")
+root_path = os.getenv("ROOT_PATH", "")
+app = FastAPI(root_path=root_path)
 templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
