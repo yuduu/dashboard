@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   dashboard:
     image: ghcr.io/yuduu/dashboard:latest
