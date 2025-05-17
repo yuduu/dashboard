@@ -1,21 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Bathroom Dashboard</title>
-    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
-    <link rel="icon" href="static/favicon.ico">
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 1.5em;
+            text-align: center;
+            padding: 2em;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Bathroom Dashboard</h1>
+    <div id="date">Loading…</div>
 
-    <div id="date" hx-get="/date" hx-trigger="load">Loading…</div>
-
-    <noscript>
-        <p>This device does not support JavaScript. Please use a newer browser.</p>
-    </noscript>
+    <script>
+        fetch("/date")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not OK");
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById("date").innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById("date").innerHTML = "Failed to load date.";
+                console.error("Error fetching date:", error);
+            });
+    </script>
 </body>
 
 </html>
