@@ -9,10 +9,13 @@
 </head>
 
 <body>
-    <h1>Current Date & Time</h1>
-    <div id="date" hx-get="date" hx-trigger="load, every 10s" hx-target="#date">
-        Loading...
-    </div>
+    <h1>Bathroom Dashboard</h1>
+
+    <div id="date" hx-get="/date" hx-trigger="load">Loading…</div>
+
+    <noscript>
+        <p>This device does not support JavaScript. Please use a newer browser.</p>
+    </noscript>
 </body>
 
 </html>
