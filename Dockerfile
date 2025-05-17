@@ -5,7 +5,6 @@ FROM python:3.11-slim as builder
 RUN apt-get update && apt-get install -y curl && \
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
-WORKDIR /app
 COPY requirements.txt .
 
 # Use uv to install into a custom directory
@@ -20,7 +19,6 @@ ENV PYTHONPATH="/install:$PYTHONPATH"
 COPY --from=builder /install /install
 COPY app/ /app/
 
-WORKDIR /app
 EXPOSE 8000
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
