@@ -1,14 +1,22 @@
-# Stage 1: Build image
+# Stage 1: Install dependencies using uv
 FROM python:3.11-slim as builder
+
+# Install uv
+RUN apt-get update && apt-get install -y curl && \
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install --prefix=/install -r requirements.txt
+
+# Use uv to install into a custom directory
+RUN /root/.cargo/bin/uv pip install --system -r requirements.txt --target /install
 
 # Stage 2: Final image
 FROM python:3.11-slim
 
-ENV PATH="/install/bin:$PATH"
+# Set Python path to include /install
+ENV PYTHONPATH="/install:$PYTHONPATH"
+
 COPY --from=builder /install /install
 COPY app/ /app/
 
