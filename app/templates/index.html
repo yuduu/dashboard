@@ -16,24 +16,29 @@
 
 <body>
     <h1>Bathroom Dashboard</h1>
+
     <div id="date">Loading…</div>
 
     <script>
-        fetch("/date")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not OK");
+        document.addEventListener("DOMContentLoaded", function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/date", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        document.getElementById("date").innerHTML = xhr.responseText;
+                    } else {
+                        document.getElementById("date").innerHTML = "Failed to load date.";
+                    }
                 }
-                return response.text();
-            })
-            .then(html => {
-                document.getElementById("date").innerHTML = html;
-            })
-            .catch(error => {
+            };
+            xhr.onerror = function () {
                 document.getElementById("date").innerHTML = "Failed to load date.";
-                console.error("Error fetching date:", error);
-            });
+            };
+            xhr.send();
+        });
     </script>
+
 </body>
 
 </html>
