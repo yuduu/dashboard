@@ -18,6 +18,15 @@
     </div>
 
     <div hx-get="/date?_=${Date.now()}"></div>
+
+    <script>
+        // Trigger htmx manually after page load
+        document.addEventListener("DOMContentLoaded", function () {
+            var dateElement = document.getElementById("date");
+            htmx.trigger(dateElement, "load"); // Force htmx to fetch /date
+        });
+    </script>
+
 </body>
 
 </html>
