@@ -1,32 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
-    <title>Bathroom Dashboard</title>
-    <!-- htmx legacy -->
-    <script src="https://unpkg.com/htmx.org@1.9.2/dist/htmx-ie11.min.js"></script>
-
-
-    <link rel="icon" href="static/favicon.ico">
+    <title>Bad‑Dashboard</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
 </head>
 
 <body>
-    <h1>Current Date & Time</h1>
-    <div id="date" hx-get="date" hx-trigger="load, every 10s" hx-target="#date">
-        Loading...
+    <div class="time-date">
+        <div id="time">--:--</div>
+        <div id="date">Warten auf Daten…</div>
     </div>
 
-    <div hx-get="/date?_=${Date.now()}"></div>
+    <div class="section weather">
+        <div class="weather-current">
+            <img id="w-icon" class="icon" src="" alt="">
+            <div class="details">
+                <div id="w-temp" class="temp"></div>
+                <div id="w-desc"></div>
+                <div id="w-extra"></div>
+            </div>
+        </div>
+        <div class="hourly-forecast" id="hourly">
+            <!-- JS will insert hourly slots here -->
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="section news">
+        <strong>News (DE):</strong>
+        <ul id="news-list">
+            <li>Warten auf Nachrichten…</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="section quote">
+        <strong>Tageszitat:</strong>
+        <div id="quote">…lädt</div>
+    </div>
 
     <script>
-        // Trigger htmx manually after page load
-        document.addEventListener("DOMContentLoaded", function () {
-            var dateElement = document.getElementById("date");
-            htmx.trigger(dateElement, "load"); // Force htmx to fetch /date
-        });
-    </script>
+        function fetchData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/data', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var d = JSON.parse(xhr.responseText);
 
-</body>
+                    // Time & Date
+                    document.getElementById('time').textContent = d.time;
+                    document.getElementById('date').textContent = d.date;
+
+                    // Current Weather
+                    var c = d.weather.current;
+                    document.getElementById('w-icon').src =
+                        'https://openweathermap.org/img/wn/' + c.icon + '@2x.png';
+                    document.getElementById('w-icon').alt = c.desc;
+                    document.getElementById('w-temp').textContent = c.temp + ' °C';
+                    document.getElementById('w-desc').textContent = c.desc;
+                    document.getElementById('w-extra').textContent =
+                        'Feuchte ' + c.humidity + '% | Wind ' + c.wind + ' km/h';
+
+                    // Hourly Forecast
+                    var html = '';
+                    d.weather.hourly.forEach(function (h) {
+                        html += '<div class="hourly-slot">'
+                            + '<div>' + h.time + '</div>'
+                            + '<img class="icon" src="https://openweathermap.org/img/wn/' + h.icon + '.png" alt="">'
+                            + '<div>' + h.temp + ' °C</div>'
+                            + '</div>';
+                    });
+                    document.getElementById('hourly').innerHTML = html;
+
+                    // News
+                    var nl = document.getElementById('news-list');
+                    nl.innerHTML = '';
+                    d.news.forEach(function (item) {
+                        var li = document.createElement('li');
+                        li.textContent = item;
+                        nl.appendChild(li);
+                    });
+
+                    // Quote
+                    document.getElementById('quote').textContent = d.quote;
+                }
+            };
+            xhr.send();
+        }
+
+        // Initial load + refresh every 10 min
+        fetchData();
+        setInterval(fetchData, 600000);
+    </script>
 
 </html>
