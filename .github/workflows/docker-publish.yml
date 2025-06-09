@@ -6,6 +6,7 @@ on:
       - main  # change if needed
     paths:
       - 'Dockerfile'
+      - 'requirements.txt'
       - 'app/**'
 
 env:
