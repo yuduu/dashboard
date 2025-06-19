@@ -1,62 +1,32 @@
-body {
-    margin: 0;
-    font-family: sans-serif;
-    background-color: #fff;
-    color: #222;
-}
-
-main.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.panel {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.clock-weather {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.clock #date,
-.clock #time {
-    font-size: 1.2em;
-}
-
-.weather {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.weather i {
-    font-size: 2em;
-}
-
-.forecast .forecast-item,
-.daily-forecast .forecast-item {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.mvg-disruptions ul,
-.news ul {
-    padding-left: 20px;
-}
-
-.compliment {
+.clock {
     font-size: 1.5em;
-    text-align: center;
+    padding: 20px 10px;
+}
+
+#date {
+    font-size: 1.6em;
     font-weight: bold;
+    margin-bottom: 8px;
+}
+
+#time {
+    font-size: 2.2em;
+    font-weight: bold;
+}
+
+.forecast.hourly {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+}
+
+.forecast.hourly .forecast-item {
+    display: inline-block;
+    width: 120px;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    background: #f9f9f9;
 }
