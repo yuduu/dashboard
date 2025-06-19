@@ -1,12 +1,59 @@
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #222;
+    padding: 20px;
+    line-height: 1.4;
+}
+
+h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Layout Container */
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Panels */
+.panel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Clock & Weather */
+.clock-weather {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 1.4em;
+}
+
 .clock {
-    font-size: 1.5em;
-    padding: 20px 10px;
+    flex: 1 1 100%;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 #date {
     font-size: 1.6em;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 #time {
@@ -14,10 +61,19 @@
     font-weight: bold;
 }
 
+.weather {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1em;
+}
+
+/* Hourly Forecast */
 .forecast.hourly {
     overflow-x: auto;
     white-space: nowrap;
-    padding: 10px;
+    padding-bottom: 5px;
 }
 
 .forecast.hourly .forecast-item {
@@ -25,8 +81,54 @@
     width: 120px;
     text-align: center;
     margin-right: 10px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
+    background-color: #f9f9f9;
+    font-size: 0.95em;
+}
+
+/* Daily Forecast & MVG */
+.forecast-daily-mvg {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.daily-forecast .forecast-day {
+    margin-bottom: 10px;
     padding: 10px;
-    background: #f9f9f9;
+    background: #f2f2f2;
+    border-radius: 5px;
+}
+
+.mvg-disruptions h2 {
+    margin-bottom: 5px;
+}
+
+.mvg-disruptions ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+/* News Feed */
+.news ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.news li {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Compliment */
+.compliment {
+    text-align: center;
+    font-size: 1.6em;
+    font-style: italic;
+    padding: 20px;
+    background-color: #fefefe;
+    border-left: 5px solid #4caf50;
 }
