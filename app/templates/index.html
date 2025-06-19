@@ -15,55 +15,64 @@
         <meta name="apple-mobile-web-app-title" content="BraveCat" />
         <link rel="manifest" href="{{ url_for('static', path='site.webmanifest') }}" />
     </head>
-<body>
-    <main class="grid-container">
-        <!-- Clock and Weather -->
-        <section class="panel clock-weather">
-            <div class="clock">
-                <div id="date">Lade Datum...</div>
-                <div id="time">Lade Uhrzeit...</div>
-            </div>
-            <div class="weather">
-                <i class="wi wi-day-cloudy"></i>
-                <div>
-                    <div id="temp">18°C</div>
-                    <div id="feels-like">Gefühlt: 17°C</div>
+    <body>
+        <main class="grid-container">
+            <!-- Clock and Weather -->
+            <section class="panel clock-weather">
+                <div class="clock">
+                    <div id="date">Donnerstag, 19. Juni 2025</div>
+                    <div id="time">14:45 Uhr</div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Hourly Forecast -->
-        <section class="panel forecast hourly" id="hourly-forecast">
-            <!-- Generated dynamically -->
-        </section>
-
-        <!-- Daily Forecast and Disruptions -->
-        <section class="panel forecast-daily-mvg">
-            <div class="daily-forecast" id="daily-forecast">
-                <!-- Generated dynamically -->
-            </div>
-            <div class="mvg-disruptions" id="mvg-disruptions">
-                <h2>MVG Störungen</h2>
-                <ul>
-                    <!-- Populated by Python backend -->
+                <div class="weather">
+                    <i class="wi wi-day-sunny"></i>
+                    <div>
+                        <div id="temp">24°C</div>
+                        <div id="feels-like">Gefühlt: 25°C</div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Hourly Forecast -->
+            <section class="panel forecast hourly" id="hourly-forecast">
+                <h2>Stündliche Vorhersage</h2>
+                <div class="forecast-item">15:00 - ☀️ 24°C</div>
+                <div class="forecast-item">16:00 - 🌤️ 25°C</div>
+                <div class="forecast-item">17:00 - 🌥️ 23°C</div>
+            </section>
+    
+            <!-- Daily Forecast and Disruptions -->
+            <section class="panel forecast-daily-mvg">
+                <div class="daily-forecast" id="daily-forecast">
+                    <h2>5-Tage-Vorhersage</h2>
+                    <div class="forecast-item">Fr - 🌦️ 21°C / 14°C</div>
+                    <div class="forecast-item">Sa - ☀️ 26°C / 16°C</div>
+                    <div class="forecast-item">So - 🌧️ 19°C / 13°C</div>
+                    <div class="forecast-item">Mo - ☀️ 23°C / 15°C</div>
+                    <div class="forecast-item">Di - 🌤️ 24°C / 17°C</div>
+                </div>
+                <div class="mvg-disruptions" id="mvg-disruptions">
+                    <h2>MVG Störungen</h2>
+                    <ul>
+                        <li>U2 zwischen Hauptbahnhof und Sendlinger Tor unterbrochen</li>
+                        <li>Tram 19 verspätet sich um ca. 10 Minuten</li>
+                    </ul>
+                </div>
+            </section>
+    
+            <!-- News Section -->
+            <section class="panel news">
+                <h2>Tagesschau Nachrichten</h2>
+                <ul id="news-feed">
+                    <li>Bundestag beschließt neues Klimaschutzgesetz</li>
+                    <li>EU einigt sich auf Reform des Asylsystems</li>
+                    <li>Inflationsrate in Deutschland sinkt auf 2,5%</li>
                 </ul>
-            </div>
-        </section>
-
-        <!-- News Section -->
-        <section class="panel news">
-            <h2>Tagesschau Nachrichten</h2>
-            <ul id="news-feed">
-                <!-- News items here -->
-            </ul>
-        </section>
-
-        <!-- Compliment or Quote -->
-        <section class="panel compliment" id="compliment">
-            Du machst das super!
-        </section>
-    </main>
-
-    <script src="{{ url_for('static', path='js/update.js') }}"></script>
-</body>
+            </section>
+    
+            <!-- Compliment or Quote -->
+            <section class="panel compliment" id="compliment">
+                Du machst das super!
+            </section>
+        </main>
+    </body>
 </html>
