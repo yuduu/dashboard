@@ -16,6 +16,8 @@ app = FastAPI(root_path=root_path)
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
+print(f"FastAPI app created with root_path: '{app.root_path}'")
+
 # ENV config
 OWM_KEY = os.getenv("OWM_KEY")
 OWM_CITY = os.getenv("OWM_CITY", "Berlin,de")

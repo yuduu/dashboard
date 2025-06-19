@@ -1,109 +1,69 @@
 <!DOCTYPE html>
 <html lang="de">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Bad‑Dashboard</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
-
-    <link rel="icon" type="image/png" href="{{ url_for('static', path='/favicon-96x96.png') }}" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='/favicon.svg') }}" />
-    <link rel="shortcut icon" href="{{ url_for('static', path='/favicon.ico') }}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='/apple-touch-icon.png') }}" />
-    <meta name="apple-mobile-web-app-title" content="BraveCat" />
-    <link rel="manifest" href="{{ url_for('static', path='/site.webmanifest') }}" />
-</head>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <!-- Corrected static paths (removed leading '/') -->
+        <link rel="stylesheet" href="{{ url_for('static', path='modern.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', path='weather-icons.min.css') }}">
+        <link rel="icon" type="image/png" href="{{ url_for('static', path='favicon-96x96.png') }}" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='favicon.svg') }}" />
+        <link rel="shortcut icon" href="{{ url_for('static', path='favicon.ico') }}" />
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='apple-touch-icon.png') }}" />
+        <meta name="apple-mobile-web-app-title" content="BraveCat" />
+        <link rel="manifest" href="{{ url_for('static', path='site.webmanifest') }}" />
+    </head>
 <body>
-    <div class="time-date">
-        <div id="time">--:--</div>
-        <div id="date">Warten auf Daten…</div>
-    </div>
-
-    <div class="section weather">
-        <div class="weather-current">
-            <img id="w-icon" class="icon" src="" alt="">
-            <div class="details">
-                <div id="w-temp" class="temp"></div>
-                <div id="w-desc"></div>
-                <div id="w-extra"></div>
+    <main class="grid-container">
+        <!-- Clock and Weather -->
+        <section class="panel clock-weather">
+            <div class="clock">
+                <div id="date">Lade Datum...</div>
+                <div id="time">Lade Uhrzeit...</div>
             </div>
-        </div>
-        <div class="hourly-forecast" id="hourly">
-            <!-- JS will insert hourly slots here -->
-        </div>
-    </div>
+            <div class="weather">
+                <i class="wi wi-day-cloudy"></i>
+                <div>
+                    <div id="temp">18°C</div>
+                    <div id="feels-like">Gefühlt: 17°C</div>
+                </div>
+            </div>
+        </section>
 
-    <hr>
+        <!-- Hourly Forecast -->
+        <section class="panel forecast hourly" id="hourly-forecast">
+            <!-- Generated dynamically -->
+        </section>
 
-    <div class="section news">
-        <strong>News (DE):</strong>
-        <ul id="news-list">
-            <li>Warten auf Nachrichten…</li>
-        </ul>
-    </div>
+        <!-- Daily Forecast and Disruptions -->
+        <section class="panel forecast-daily-mvg">
+            <div class="daily-forecast" id="daily-forecast">
+                <!-- Generated dynamically -->
+            </div>
+            <div class="mvg-disruptions" id="mvg-disruptions">
+                <h2>MVG Störungen</h2>
+                <ul>
+                    <!-- Populated by Python backend -->
+                </ul>
+            </div>
+        </section>
 
-    <hr>
+        <!-- News Section -->
+        <section class="panel news">
+            <h2>Tagesschau Nachrichten</h2>
+            <ul id="news-feed">
+                <!-- News items here -->
+            </ul>
+        </section>
 
-    <div class="section quote">
-        <strong>Tageszitat:</strong>
-        <div id="quote">…lädt</div>
-    </div>
+        <!-- Compliment or Quote -->
+        <section class="panel compliment" id="compliment">
+            Du machst das super!
+        </section>
+    </main>
 
-    <script>
-        function fetchData() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/api/data', true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var d = JSON.parse(xhr.responseText);
-
-                    // Time & Date
-                    document.getElementById('time').textContent = d.time;
-                    document.getElementById('date').textContent = d.date;
-
-                    // Current Weather
-                    var c = d.weather.current;
-                    document.getElementById('w-icon').src =
-                        'https://openweathermap.org/img/wn/' + c.icon + '@2x.png';
-                    document.getElementById('w-icon').alt = c.desc;
-                    document.getElementById('w-temp').textContent = c.temp + ' °C';
-                    document.getElementById('w-desc').textContent = c.desc;
-                    document.getElementById('w-extra').textContent =
-                        'Feuchte ' + c.humidity + '% | Wind ' + c.wind + ' km/h';
-
-                    // Hourly Forecast
-                    var html = '';
-                    d.weather.hourly.forEach(function (h) {
-                        html += '<div class="hourly-slot">'
-                            + '<div>' + h.time + '</div>'
-                            + '<img class="icon" src="https://openweathermap.org/img/wn/' + h.icon + '.png" alt="">'
-                            + '<div>' + h.temp + ' °C</div>'
-                            + '</div>';
-                    });
-                    document.getElementById('hourly').innerHTML = html;
-
-                    // News
-                    var nl = document.getElementById('news-list');
-                    nl.innerHTML = '';
-                    d.news.forEach(function (item) {
-                        var li = document.createElement('li');
-                        li.textContent = item;
-                        nl.appendChild(li);
-                    });
-
-                    // Quote
-                    document.getElementById('quote').textContent = d.quote;
-                }
-            };
-            xhr.send();
-        }
-
-        // Initial load + refresh every 10 min
-        fetchData();
-        setInterval(fetchData, 600000);
-    </script>
-
+    <script src="{{ url_for('static', path='js/update.js') }}"></script>
+</body>
 </html>
